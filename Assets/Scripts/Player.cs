@@ -6,6 +6,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     Controller controller;//Controller for handling all movement calculations
+
+    public float jumpHeight = 4;
+    public float timeToJumpApex = .7f;
+    float gravity;
+    public float walkSpeed; //The player's walk speed
+    float jumpVel;
+    float velSmoothing;
+    float accelTimeAir = .1f;
+    float accelTimeGround = .2f;
     //FSM for the player's animation state
     public enum PlayerState
     {
@@ -32,8 +41,6 @@ public class Player : MonoBehaviour
         get { return acc; }
         set { acc = value; }
     }
-    public float mass = 1f; //The mass of the player
-    public float walkSpeed; //The player's walk speed
 
     // Start is called before the first frame update
     void Start()
@@ -41,13 +48,28 @@ public class Player : MonoBehaviour
         controller = GetComponent<Controller>();
         spriteRenderer = GetComponent<SpriteRenderer>(); //set the sprite renderer
         StartCoroutine("Animate"); //Start the idle animation
+
+        gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        jumpVel = Mathf.Abs(gravity) * timeToJumpApex;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        vel.x = input.x * -walkSpeed;
+        if (controller.collisions.above || controller.collisions.below) //stop moving if on surface
+            vel.y = 0;
+
+        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //left and right movement
+
+        //Debug.Log(controller.collisions.below);
+        if(Input.GetKeyDown(KeyCode.Space) && controller.collisions.below)
+        {
+            vel.y = jumpVel;
+        }
+
+        float targetVelX = input.x * walkSpeed;
+        vel.x = Mathf.SmoothDamp(vel.x, targetVelX, ref velSmoothing, controller.collisions.below ? accelTimeGround : accelTimeAir);
+        vel.y += gravity * Time.deltaTime;
         controller.Move(vel * Time.deltaTime);
         //if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D)) playerState = PlayerState.Idle; //Make the player idle if the user isn't pressing a button
 

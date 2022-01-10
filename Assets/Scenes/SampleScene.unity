@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ece5a982298439468fb4d484ea8e9d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: -5
 --- !u!4 &246156502
 Transform:
   m_ObjectHideFlags: 0
@@ -463,6 +462,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fae90045e37ff4780aa345c54b1d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpHeight: 4
+  timeToJumpApex: 0.54
+  walkSpeed: 10.01
   idleSprites:
   - {fileID: 9102217390351268452, guid: 8cb7dc3ed26d6c7418737792406f9bee, type: 3}
   - {fileID: -6748881401814166320, guid: 8cb7dc3ed26d6c7418737792406f9bee, type: 3}
@@ -478,8 +480,6 @@ MonoBehaviour:
   - {fileID: -6977126792656482783, guid: 8cb7dc3ed26d6c7418737792406f9bee, type: 3}
   - {fileID: 4556932795261149978, guid: 8cb7dc3ed26d6c7418737792406f9bee, type: 3}
   - {fileID: -7924029552951924101, guid: 8cb7dc3ed26d6c7418737792406f9bee, type: 3}
-  mass: 3
-  walkSpeed: 0.02
 --- !u!61 &1549161361
 BoxCollider2D:
   m_ObjectHideFlags: 0
