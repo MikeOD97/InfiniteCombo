@@ -464,14 +464,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1266788807}
-  m_LocalRotation: {x: -0, y: -0, z: 0.94029784, w: 0.34035286}
-  m_LocalPosition: {x: -9.68, y: -1.34, z: 5.651121}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -4.62, y: -0.9, z: 5.651121}
   m_LocalScale: {x: 13.573968, y: 1.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 140.203}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &1549161357
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +575,10 @@ MonoBehaviour:
   jumpHeight: 4
   timeToJumpApex: 0.54
   walkSpeed: 10.01
+  wallSlideSpeed: 2
+  wallJumpNeutral: {x: 20, y: 8}
+  wallJumpAway: {x: 30, y: 13}
+  wallStickTime: 0.5
   idleSprites:
   - {fileID: 9102217390351268452, guid: 8cb7dc3ed26d6c7418737792406f9bee, type: 3}
   - {fileID: -6748881401814166320, guid: 8cb7dc3ed26d6c7418737792406f9bee, type: 3}
@@ -736,11 +740,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926100975}
-  m_LocalRotation: {x: -0, y: -0, z: 0.31969178, w: 0.9475216}
-  m_LocalPosition: {x: 8.79, y: -2.3, z: 5.651121}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 5.05, y: -0.93, z: 5.651121}
   m_LocalScale: {x: 13.573968, y: 1.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 37.289}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}

@@ -15,6 +15,12 @@ public class Player : MonoBehaviour
     float velSmoothing;
     float accelTimeAir = .1f;
     float accelTimeGround = .2f;
+
+    public float wallSlideSpeed = 2f;
+    public Vector2 wallJumpNeutral;
+    public Vector2 wallJumpAway;
+    public float wallStickTime = 1f;
+    float timeToWallUnstick;
     //FSM for the player's animation state
     public enum PlayerState
     {
@@ -56,19 +62,62 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (controller.collisions.above || controller.collisions.below) //stop moving if on surface
-            vel.y = 0;
-
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //left and right movement
-
-        //Debug.Log(controller.collisions.below);
-        if(Input.GetKeyDown(KeyCode.Space) && controller.collisions.below)
-        {
-            vel.y = jumpVel;
-        }
+        int wallDirX = (controller.collisions.left) ? -1 : 1;
 
         float targetVelX = input.x * walkSpeed;
         vel.x = Mathf.SmoothDamp(vel.x, targetVelX, ref velSmoothing, controller.collisions.below ? accelTimeGround : accelTimeAir);
+
+        bool wallSliding = false;
+        if((controller.collisions.left || controller.collisions.right) && !controller.collisions.below && vel.y < 0)
+        {
+            wallSliding = true;
+            if (vel.y < -wallSlideSpeed)
+                vel.y = -wallSlideSpeed;
+
+            if (timeToWallUnstick > 0)
+            {
+                velSmoothing = 0;
+                vel.x = 0;
+                if (input.x != wallDirX && input.x != 0)
+                    timeToWallUnstick -= Time.deltaTime;
+                else
+                    timeToWallUnstick = wallStickTime;
+            }
+            else
+                timeToWallUnstick = wallStickTime;
+
+        }
+        Debug.Log("L" + controller.collisions.left);
+        Debug.Log("R" + controller.collisions.right);
+        Debug.Log("B" + controller.collisions.below);
+        Debug.Log(vel.y);
+        if (controller.collisions.above || controller.collisions.below) //stop moving if on surface
+            vel.y = 0;
+
+        //Debug.Log(controller.collisions.below);
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("J");
+            if(wallSliding)
+            {
+                if(input.x == 0 || wallDirX == input.x)
+                {
+                    vel.x = -wallDirX * wallJumpNeutral.x;
+                    vel.y = wallJumpNeutral.y;
+                    Debug.Log("JN");
+                }
+                else
+                {
+                    vel.x = -wallDirX * wallJumpAway.x;
+                    vel.y = wallJumpAway.y;
+                    Debug.Log("JA");
+                }
+            }
+            if(controller.collisions.below)
+                vel.y = jumpVel;
+        }
+
         vel.y += gravity * Time.deltaTime;
         controller.Move(vel * Time.deltaTime);
         //if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D)) playerState = PlayerState.Idle; //Make the player idle if the user isn't pressing a button
