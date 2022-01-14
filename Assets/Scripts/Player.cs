@@ -7,11 +7,13 @@ public class Player : MonoBehaviour
 {
     Controller controller;//Controller for handling all movement calculations
 
-    public float jumpHeight = 4;
+    public float minJumpHeight = 1;
+    public float maxJumpHeight = 4;
     public float timeToJumpApex = .7f;
     float gravity;
     public float walkSpeed; //The player's walk speed
-    float jumpVel;
+    float maxJumpVel;
+    float minJumpVel;
     float velSmoothing;
     float accelTimeAir = .1f;
     float accelTimeGround = .2f;
@@ -55,8 +57,9 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>(); //set the sprite renderer
         StartCoroutine("Animate"); //Start the idle animation
 
-        gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
-        jumpVel = Mathf.Abs(gravity) * timeToJumpApex;
+        gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
+        maxJumpVel = Mathf.Abs(gravity) * timeToJumpApex;
+        minJumpVel = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
     }
 
     // Update is called once per frame
@@ -88,38 +91,36 @@ public class Player : MonoBehaviour
                 timeToWallUnstick = wallStickTime;
 
         }
-        Debug.Log("L" + controller.collisions.left);
-        Debug.Log("R" + controller.collisions.right);
-        Debug.Log("B" + controller.collisions.below);
-        Debug.Log(vel.y);
         if (controller.collisions.above || controller.collisions.below) //stop moving if on surface
             vel.y = 0;
 
         //Debug.Log(controller.collisions.below);
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("J");
             if(wallSliding)
             {
                 if(input.x == 0 || wallDirX == input.x)
                 {
                     vel.x = -wallDirX * wallJumpNeutral.x;
                     vel.y = wallJumpNeutral.y;
-                    Debug.Log("JN");
                 }
                 else
                 {
                     vel.x = -wallDirX * wallJumpAway.x;
                     vel.y = wallJumpAway.y;
-                    Debug.Log("JA");
                 }
             }
             if(controller.collisions.below)
-                vel.y = jumpVel;
+                vel.y = maxJumpVel;
+        }
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            if(vel.y > minJumpVel)
+                vel.y = minJumpVel;
         }
 
         vel.y += gravity * Time.deltaTime;
-        controller.Move(vel * Time.deltaTime);
+        controller.Move(vel * Time.deltaTime, input);
         //if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D)) playerState = PlayerState.Idle; //Make the player idle if the user isn't pressing a button
 
         ////Code to walk right

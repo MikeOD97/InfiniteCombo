@@ -17,6 +17,7 @@ public class Controller : MonoBehaviour
     float horizontalRaySpacing;
     float verticalRaySpacing;
 
+    Vector2 playerInput;
 
     BoxCollider2D coll;
     RaycastOrigins raycastOrigins;
@@ -29,10 +30,11 @@ public class Controller : MonoBehaviour
         collisions.faceDir = 1;
     }
 
-    public void Move(Vector3 velocity)
+    public void Move(Vector3 velocity, Vector2 input)
     {
         UpdateRaycastOrigins();
         collisions.Reset();
+        playerInput = input;
 
         if(velocity.x != 0)
         {
@@ -70,6 +72,8 @@ public class Controller : MonoBehaviour
 
             if (hit)
             {
+                if (hit.distance == 0)
+                    continue;
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
                 if(i == 0 && slopeAngle <= maxClimbAngle)
                 {
@@ -113,6 +117,18 @@ public class Controller : MonoBehaviour
 
             if (hit)
             {
+                if (hit.collider.tag == "SoftPlatform")
+                {
+                    if (directionY == 1 || hit.distance == 0)
+                        continue;
+                    if (playerInput.y == -1)
+                    {
+                        continue;
+                    }
+
+                }
+
+
                 velocity.y = (hit.distance - skinwidth) * directionY;
                 rayLength = hit.distance;
 
