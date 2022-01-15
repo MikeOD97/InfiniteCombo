@@ -17,15 +17,20 @@ public class Controller : MonoBehaviour
     float horizontalRaySpacing;
     float verticalRaySpacing;
 
-    Vector2 playerInput;
+    [HideInInspector]
+    public Vector2 playerInput;
 
     BoxCollider2D coll;
     RaycastOrigins raycastOrigins;
     public CollisionInfo collisions;
 
-    void Start()
+    void Awake()
     {
         coll = GetComponent<BoxCollider2D>();
+    }
+
+    void Start()
+    {
         calculateRaySpacing();
         collisions.faceDir = 1;
     }
