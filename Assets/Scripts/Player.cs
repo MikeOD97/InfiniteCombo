@@ -23,6 +23,10 @@ public class Player : MonoBehaviour
     public Vector2 wallJumpAway;
     public float wallStickTime = 1f;
     float timeToWallUnstick;
+    bool wallSliding;
+    int wallDirX;
+
+    Vector2 dirInput;
     //FSM for the player's animation state
     public enum PlayerState
     {
@@ -62,87 +66,49 @@ public class Player : MonoBehaviour
         minJumpVel = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //left and right movement
-        int wallDirX = (controller.collisions.left) ? -1 : 1;
+        CalculateVelocity();
+        HandleWallSliding();
 
-        float targetVelX = input.x * walkSpeed;
-        vel.x = Mathf.SmoothDamp(vel.x, targetVelX, ref velSmoothing, controller.collisions.below ? accelTimeGround : accelTimeAir);
+        controller.Move(vel * Time.deltaTime, dirInput);
 
-        bool wallSliding = false;
-        if((controller.collisions.left || controller.collisions.right) && !controller.collisions.below && vel.y < 0)
-        {
-            wallSliding = true;
-            if (vel.y < -wallSlideSpeed)
-                vel.y = -wallSlideSpeed;
-
-            if (timeToWallUnstick > 0)
-            {
-                velSmoothing = 0;
-                vel.x = 0;
-                if (input.x != wallDirX && input.x != 0)
-                    timeToWallUnstick -= Time.deltaTime;
-                else
-                    timeToWallUnstick = wallStickTime;
-            }
-            else
-                timeToWallUnstick = wallStickTime;
-
-        }
         if (controller.collisions.above || controller.collisions.below) //stop moving if on surface
             vel.y = 0;
+    }
 
-        //Debug.Log(controller.collisions.below);
-        if(Input.GetKeyDown(KeyCode.Space))
+    public void SetInput(Vector2 input)
+    {
+        dirInput = input;
+    }
+
+
+    public void OnJumpDown()
+    {
+        if (wallSliding)
         {
-            if(wallSliding)
+            if (dirInput.x == 0 || wallDirX == dirInput.x)
             {
-                if(input.x == 0 || wallDirX == input.x)
-                {
-                    vel.x = -wallDirX * wallJumpNeutral.x;
-                    vel.y = wallJumpNeutral.y;
-                }
-                else
-                {
-                    vel.x = -wallDirX * wallJumpAway.x;
-                    vel.y = wallJumpAway.y;
-                }
+                vel.x = -wallDirX * wallJumpNeutral.x;
+                vel.y = wallJumpNeutral.y;
             }
-            if(controller.collisions.below)
-                vel.y = maxJumpVel;
+            else
+            {
+                vel.x = -wallDirX * wallJumpAway.x;
+                vel.y = wallJumpAway.y;
+            }
         }
-        if(Input.GetKeyUp(KeyCode.Space))
+        if (controller.collisions.below)
         {
-            if(vel.y > minJumpVel)
-                vel.y = minJumpVel;
+            vel.y = maxJumpVel;
         }
 
-        vel.y += gravity * Time.deltaTime;
-        controller.Move(vel * Time.deltaTime, input);
-        //if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D)) playerState = PlayerState.Idle; //Make the player idle if the user isn't pressing a button
+    }
 
-        ////Code to walk right
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    transform.localRotation = Quaternion.Euler(0, 0, 0); //make sure the sprite faces right
-        //    playerState = PlayerState.Walking; //Set the enum accurately
-        //    acc += walkSpeed * new Vector3(1, 0) / mass; //Calculate acceleration
-           
-        //}
-        ////Do the same thing for left
-        //else if (Input.GetKey(KeyCode.A))
-        //{
-        //    transform.localRotation = Quaternion.Euler(0, 180, 0);
-        //    playerState = PlayerState.Walking;
-        //    acc += walkSpeed * new Vector3(-1, 0) / mass;
-        //}
-        //vel += acc; //Calculate velocity
-        //vel += vel * -1f * 0.15f; //friction
-        //transform.position += (Vector3)vel; //add velocity to position
-        //GetComponent<SpriteRenderer>().sprite = spriteRenderer.sprite; //Set the sprite accurately
-        //acc = Vector3.zero; //Reset the acceleration vector
+    public void OnJumpUp()
+    {
+        if (vel.y > minJumpVel)
+            vel.y = minJumpVel;
     }
 
     //Animation coroutine
@@ -171,5 +137,38 @@ public class Player : MonoBehaviour
         }
        
         StartCoroutine("Animate"); //Keep it looping
+    }
+
+    void HandleWallSliding()
+    {
+
+        wallSliding = false;
+        wallDirX = (controller.collisions.left) ? -1 : 1;
+        if ((controller.collisions.left || controller.collisions.right) && !controller.collisions.below && vel.y < 0)
+        {
+            wallSliding = true;
+            if (vel.y < -wallSlideSpeed)
+                vel.y = -wallSlideSpeed;
+
+            if (timeToWallUnstick > 0)
+            {
+                velSmoothing = 0;
+                vel.x = 0;
+                if (dirInput.x != wallDirX && dirInput.x != 0)
+                    timeToWallUnstick -= Time.deltaTime;
+                else
+                    timeToWallUnstick = wallStickTime;
+            }
+            else
+                timeToWallUnstick = wallStickTime;
+
+        }
+    }
+
+    void CalculateVelocity()
+    {
+        float targetVelX = dirInput.x * walkSpeed;
+        vel.x = Mathf.SmoothDamp(vel.x, targetVelX, ref velSmoothing, controller.collisions.below ? accelTimeGround : accelTimeAir);
+        vel.y += gravity * Time.deltaTime;
     }
 }
