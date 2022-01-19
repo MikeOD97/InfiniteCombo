@@ -38,8 +38,8 @@ public class Player : MonoBehaviour
     PlayerState playerState = PlayerState.Idle; // Set it to idle first
 
     private SpriteRenderer spriteRenderer; //sprite renderer property
-    public Sprite[] idleSprites; //Array for the idle sprites
-    public Sprite[] walkingSprites; //Array for the walking sprites
+    //public Sprite[] idleSprites; //Array for the idle sprites
+    //public Sprite[] walkingSprites; //Array for the walking sprites
 
     private Vector3 vel; //Velocity vector
     public Vector3 Velocity
@@ -112,32 +112,32 @@ public class Player : MonoBehaviour
     }
 
     //Animation coroutine
-    public IEnumerator Animate()
-    {
-        //Depending on the player state, move through each frame of animation in the appropriate array
-        switch(playerState)
-        {
-            case PlayerState.Idle:
-                for (int i = 0; i < idleSprites.Length; i++)
-                {
-                    if (playerState != PlayerState.Idle) break; //Break if the state changes mid loop
-                    spriteRenderer.sprite = idleSprites[i];
-                    yield return new WaitForSeconds(.1f);
-                }
-                break;
+    //public IEnumerator Animate()
+    //{
+    //    //Depending on the player state, move through each frame of animation in the appropriate array
+    //    switch(playerState)
+    //    {
+    //        case PlayerState.Idle:
+    //            for (int i = 0; i < idleSprites.Length; i++)
+    //            {
+    //                if (playerState != PlayerState.Idle) break; //Break if the state changes mid loop
+    //                spriteRenderer.sprite = idleSprites[i];
+    //                yield return new WaitForSeconds(.1f);
+    //            }
+    //            break;
 
-            case PlayerState.Walking:
-                for (int i = 0; i < walkingSprites.Length; i++)
-                {
-                    if (playerState != PlayerState.Walking) break;
-                    spriteRenderer.sprite = walkingSprites[i];
-                    yield return new WaitForSeconds(.1f);
-                }
-                break;
-        }
+    //        case PlayerState.Walking:
+    //            for (int i = 0; i < walkingSprites.Length; i++)
+    //            {
+    //                if (playerState != PlayerState.Walking) break;
+    //                spriteRenderer.sprite = walkingSprites[i];
+    //                yield return new WaitForSeconds(.1f);
+    //            }
+    //            break;
+    //    }
        
-        StartCoroutine("Animate"); //Keep it looping
-    }
+    //    StartCoroutine("Animate"); //Keep it looping
+    //}
 
     void HandleWallSliding()
     {
