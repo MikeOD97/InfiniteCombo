@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     int wallDirX;
 
     Vector2 dirInput;
+
+    Animator animator;
     //FSM for the player's animation state
     public enum PlayerState
     {
@@ -59,6 +61,7 @@ public class Player : MonoBehaviour
     {
         controller = GetComponent<Controller>();
         spriteRenderer = GetComponent<SpriteRenderer>(); //set the sprite renderer
+        animator = GetComponent<Animator>();
         StartCoroutine("Animate"); //Start the idle animation
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
@@ -80,6 +83,21 @@ public class Player : MonoBehaviour
     public void SetInput(Vector2 input)
     {
         dirInput = input;
+        if((int)Mathf.Sign(transform.localScale.x) > 0 && dirInput.x < 0)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1;
+            transform.localScale = localScale;
+        }
+        else if ((int)Mathf.Sign(transform.localScale.x) < 0 && dirInput.x > 0)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1;
+            transform.localScale = localScale;
+            Debug.Log((int)Mathf.Sign(dirInput.x));
+        }
+
+        animator.SetFloat("Speed", vel.sqrMagnitude);
     }
 
 
