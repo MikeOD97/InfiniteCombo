@@ -16,6 +16,8 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         Vector2 dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //left and right movement
+        Debug.Log(player);
+        Debug.Log(dirInput);
         player.SetInput(dirInput);
 
         if (Input.GetKeyDown(KeyCode.Space))

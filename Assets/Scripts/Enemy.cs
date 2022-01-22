@@ -1,11 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent (typeof(Controller))]
-public class Player : Entity
+public class Enemy : Entity
 {
     // Start is called before the first frame update
+    float moveTimer = 0;
+    Vector2 moveVel;
     void Start()
     {
         controller = GetComponent<Controller>();
@@ -15,7 +16,10 @@ public class Player : Entity
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVel = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVel = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
+        moveVel = new Vector2(1, 0);
     }
+
+    // Update is called once per frame
     void Update()
     {
         CalculateVelocity();
@@ -27,6 +31,16 @@ public class Player : Entity
 
         if (controller.collisions.above || controller.collisions.below) //stop moving if on surface
             vel.y = 0;
+
+        if(moveTimer < 2)
+        {
+            SetInput(moveVel);
+            moveTimer += Time.deltaTime;
+        }
+        else
+        {
+            moveVel.x *= -1;
+            moveTimer = 0;
+        }
     }
-    
 }
