@@ -479,6 +479,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 820033759}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &979915311 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 342767184185635014, guid: 29b5ef75495b2694dbafc6dda3f37703,
+    type: 3}
+  m_PrefabInstance: {fileID: 5131956246159488093}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1069112476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1053,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927577b76471ac145bf2884a7c83db13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1586133488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8736310459633181018, guid: 29b5ef75495b2694dbafc6dda3f37703,
+    type: 3}
+  m_PrefabInstance: {fileID: 5131956246159488093}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1926100975
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,6 +1169,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &2006268379 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7107268492064212442, guid: 29b5ef75495b2694dbafc6dda3f37703,
+    type: 3}
+  m_PrefabInstance: {fileID: 5131956246159488093}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5131956246159488093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1165,6 +1183,21 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5131956244620814285, guid: 29b5ef75495b2694dbafc6dda3f37703,
+        type: 3}
+      propertyPath: Attack1Box
+      value: 
+      objectReference: {fileID: 979915311}
+    - target: {fileID: 5131956244620814285, guid: 29b5ef75495b2694dbafc6dda3f37703,
+        type: 3}
+      propertyPath: Attack2Box
+      value: 
+      objectReference: {fileID: 1586133488}
+    - target: {fileID: 5131956244620814285, guid: 29b5ef75495b2694dbafc6dda3f37703,
+        type: 3}
+      propertyPath: Attack3Box
+      value: 
+      objectReference: {fileID: 2006268379}
     - target: {fileID: 5131956244620814288, guid: 29b5ef75495b2694dbafc6dda3f37703,
         type: 3}
       propertyPath: m_Name

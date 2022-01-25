@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     Player player;
+    float attackTimer = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +25,13 @@ public class PlayerInput : MonoBehaviour
             player.OnJumpDown();
         if (Input.GetKeyUp(KeyCode.Space))
             player.OnJumpUp();
+        if(Input.GetMouseButtonDown(0))
+            attackTimer = 0.4f;
+        if(attackTimer > 0)
+        {            
+            attackTimer -= Time.deltaTime;
+            player.Attack(attackTimer);
+        }
 
     }
 }
