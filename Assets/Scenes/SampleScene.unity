@@ -1198,6 +1198,24 @@ PrefabInstance:
       propertyPath: Attack3Box
       value: 
       objectReference: {fileID: 2006268379}
+    - target: {fileID: 5131956244620814285, guid: 29b5ef75495b2694dbafc6dda3f37703,
+        type: 3}
+      propertyPath: Attack1HitSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9a60c0bc68efa784f82090d9b7e412b0,
+        type: 3}
+    - target: {fileID: 5131956244620814285, guid: 29b5ef75495b2694dbafc6dda3f37703,
+        type: 3}
+      propertyPath: Attack2HitSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f0058e0704c1084db1819c1d0e985ca,
+        type: 3}
+    - target: {fileID: 5131956244620814285, guid: 29b5ef75495b2694dbafc6dda3f37703,
+        type: 3}
+      propertyPath: Attack3HitSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cf6571fee374e8c419057a80102ca245,
+        type: 3}
     - target: {fileID: 5131956244620814288, guid: 29b5ef75495b2694dbafc6dda3f37703,
         type: 3}
       propertyPath: m_Name

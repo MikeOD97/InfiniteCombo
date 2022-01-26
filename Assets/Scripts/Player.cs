@@ -8,6 +8,7 @@ public class Player : Entity
     // Start is called before the first frame update
     public GameObject Attack1Box, Attack2Box, Attack3Box;
     public Sprite Attack1HitSprite, Attack2HitSprite, Attack3HitSprite;
+    float startWalkSpeed;
 
     void Start()
     {
@@ -18,6 +19,7 @@ public class Player : Entity
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVel = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVel = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
+        startWalkSpeed = walkSpeed;
     }
     void Update()
     {
@@ -34,9 +36,40 @@ public class Player : Entity
     public void Attack(float timer)
     {
         if(timer <= 0)
+        {
             animator.SetBool("Attacking", false);
+        }
+
         else
-            animator.SetBool("Attacking", true);
+        {
+            animator.SetBool("Attacking", true);              
+        }
+        if(Attack1HitSprite == spriteRenderer.sprite)
+            Attack1Box.gameObject.SetActive(true);
+        else if (Attack2HitSprite == spriteRenderer.sprite)
+            Attack2Box.gameObject.SetActive(true);
+        else if(Attack3HitSprite == spriteRenderer.sprite)
+             Attack3Box.gameObject.SetActive(true);
+        else
+        {
+            Attack1Box.gameObject.SetActive(false);
+            Attack2Box.gameObject.SetActive(false);
+            Attack3Box.gameObject.SetActive(false);
+        }
+    }
+    public void Block(bool block)
+    {
+        if(block)
+        {
+            animator.SetBool("Blocking", true);
+            walkSpeed = 0;
+        }
+        else
+        {
+            animator.SetBool("Blocking", false);
+            walkSpeed = startWalkSpeed;
+        }
+
     }
     
 }

@@ -27,11 +27,15 @@ public class PlayerInput : MonoBehaviour
             player.OnJumpUp();
         if(Input.GetMouseButtonDown(0))
             attackTimer = 0.4f;
+        else if(Input.GetMouseButton(1))
+            player.Block(true);
+        else if(Input.GetMouseButtonUp(1))
+            player.Block(false);
         if(attackTimer > 0)
         {            
-            attackTimer -= Time.deltaTime;
-            player.Attack(attackTimer);
+            attackTimer -= Time.deltaTime;          
         }
+        player.Attack(attackTimer);
 
     }
 }
