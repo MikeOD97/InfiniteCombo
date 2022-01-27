@@ -16,26 +16,35 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //left and right movement
-        Debug.Log(player);
-        Debug.Log(dirInput);
-        player.SetInput(dirInput);
+        if(!player.stunned)
+        {
+            Vector2 dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //left and right movement
+            player.SetInput(dirInput);
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            player.OnJumpDown();
-        if (Input.GetKeyUp(KeyCode.Space))
-            player.OnJumpUp();
-        if(Input.GetMouseButtonDown(0))
-            attackTimer = 0.4f;
-        else if(Input.GetMouseButton(1))
-            player.Block(true);
-        else if(Input.GetMouseButtonUp(1))
-            player.Block(false);
-        if(attackTimer > 0)
-        {            
-            attackTimer -= Time.deltaTime;          
+            if (Input.GetKeyDown(KeyCode.Space))
+                player.OnJumpDown();
+            if (Input.GetKeyUp(KeyCode.Space))
+                player.OnJumpUp();
+            if(Input.GetMouseButtonDown(0))
+                attackTimer = 0.4f;
+            else if(Input.GetMouseButton(1))
+                player.Block(true);
+            else if(Input.GetMouseButtonUp(1))
+                player.Block(false);
+            if(attackTimer > 0)
+            {            
+                attackTimer -= Time.deltaTime;          
+            }
+            player.Attack(attackTimer);
+        //-----This is just for testing damage. To be removed.-----
+            if(Input.GetKeyDown(KeyCode.Q))
+                player.Damaged(true);
+            else
+                player.Damaged(false);
+            if(Input.GetKeyDown(KeyCode.E))
+                StartCoroutine(player.Stunned(new Vector2(60,12)));
         }
-        player.Attack(attackTimer);
-
+        else
+            player.SetInput(Vector2.zero);
     }
 }

@@ -37,6 +37,10 @@ public class Entity : MonoBehaviour
     protected SpriteRenderer spriteRenderer; //sprite renderer property
 
     protected Vector3 vel; //Velocity vector
+
+    protected float stunTime = 1.5f;
+
+    public bool stunned = false;
     // Start is called before the first frame update
     void Start()
     {

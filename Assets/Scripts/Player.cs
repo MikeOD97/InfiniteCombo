@@ -72,4 +72,25 @@ public class Player : Entity
 
     }
     
+    public void Damaged(bool hit)
+    {
+        animator.SetBool("Damaged", hit);
+    }
+
+    //This'll be used in the future when I figure out how I wanna implement knock-down mechanics, 
+    //points where you're unable to act, times where you're sent flying, etc.
+    public IEnumerator Stunned(Vector2 stunForce)
+    {
+        //from any different method, call "StartCoroutine(Stunned())
+
+        animator.Play("Hurt");
+        stunned = true;
+        animator.SetBool("Stunned", true);
+        vel += (Vector3)stunForce;
+
+        yield return new WaitForSeconds(stunTime);
+        stunned = false;
+        animator.SetBool("Stunned", false);
+        animator.Play("Idle");
+    }
 }
