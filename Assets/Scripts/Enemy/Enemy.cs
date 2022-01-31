@@ -7,6 +7,10 @@ public class Enemy : Entity
     // Start is called before the first frame update
     float moveTimer = 0;
     Vector2 moveVel;
+    public bool playerDetected;
+    public GameObject player;
+    public Collider2D visionCol;
+    public Collider2D playerCol;
     void Start()
     {
         controller = GetComponent<Controller>();
@@ -17,6 +21,9 @@ public class Enemy : Entity
         maxJumpVel = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVel = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         moveVel = new Vector2(1, 0);
+        player = GameObject.FindGameObjectWithTag("Player");
+/*         visionCol = gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>();
+        playerCol = player.GetComponent<BoxCollider2D>(); */
     }
 
     // Update is called once per frame
@@ -32,7 +39,12 @@ public class Enemy : Entity
         if (controller.collisions.above || controller.collisions.below) //stop moving if on surface
             vel.y = 0;
 
-        if(moveTimer < 2)
+        if(visionCol.IsTouching(playerCol))
+            playerDetected = true;
+        else
+            playerDetected = false;
+
+        /* if(moveTimer < 2)
         {
             SetInput(moveVel);
             moveTimer += Time.deltaTime;
@@ -41,6 +53,7 @@ public class Enemy : Entity
         {
             moveVel.x *= -1;
             moveTimer = 0;
-        }
+        } */
     }
+
 }

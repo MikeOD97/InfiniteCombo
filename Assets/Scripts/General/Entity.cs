@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Entity : MonoBehaviour
 {
     protected Controller controller;//Controller for handling all movement calculations
@@ -92,6 +93,7 @@ public class Entity : MonoBehaviour
         if (controller.collisions.below)
         {
             vel.y = maxJumpVel;
+            animator.SetBool("Jumping", true);
         }
 
     }

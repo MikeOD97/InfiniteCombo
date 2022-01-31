@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Controller : MonoBehaviour
 {
     public LayerMask collisionMask;

@@ -31,7 +31,10 @@ public class Player : Entity
         currentState = currentStateInfo.fullPathHash;
 
         if (controller.collisions.above || controller.collisions.below) //stop moving if on surface
+        {
             vel.y = 0;
+            animator.SetBool("Jumping", false);
+        }
     }
     public void Attack(float timer)
     {
