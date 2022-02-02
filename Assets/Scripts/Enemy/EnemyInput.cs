@@ -7,6 +7,9 @@ public class EnemyInput : MonoBehaviour
 {
     NavMeshAgent nav;
     Enemy parent;
+
+    public float desiredDistance = 1.0f;
+    float distance;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +20,8 @@ public class EnemyInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(parent.playerDetected)
+        distance = Vector3.Distance(parent.player.transform.position, parent.transform.position);
+        if(parent.playerDetected && distance > desiredDistance)
         {
             parent.SetInput(parent.player.transform.position - parent.transform.position);
         }
