@@ -42,6 +42,9 @@ public class Entity : MonoBehaviour
     protected float stunTime = 1.5f;
 
     public bool stunned = false;
+
+    public GameObject Attack1Box, Attack2Box, Attack3Box;
+    public Sprite Attack1HitSprite, Attack2HitSprite, Attack3HitSprite;
     // Start is called before the first frame update
     void Start()
     {

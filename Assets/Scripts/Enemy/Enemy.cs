@@ -55,5 +55,33 @@ public class Enemy : Entity
             moveTimer = 0;
         } */
     }
+    public void Attack(float timer)
+    {
+        if(timer <= 0)
+        {
+            animator.SetBool("Attacking", false);
+        }
+
+        else
+        {
+            animator.SetBool("Attacking", true);              
+        }
+        if(Attack1HitSprite == spriteRenderer.sprite)
+            Attack1Box.gameObject.SetActive(true);
+        else if (Attack2HitSprite == spriteRenderer.sprite)
+            Attack2Box.gameObject.SetActive(true);
+        else if(Attack3HitSprite == spriteRenderer.sprite)
+             Attack3Box.gameObject.SetActive(true);
+        else
+        {
+            Attack1Box.gameObject.SetActive(false);
+            Attack2Box.gameObject.SetActive(false);
+            Attack3Box.gameObject.SetActive(false);
+        }
+    }
+    public void InstantStop()
+    {
+        vel.x = 0;
+    }
 
 }

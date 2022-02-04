@@ -24,10 +24,18 @@ public class EnemyInput : MonoBehaviour
         if(parent.playerDetected && distance > desiredDistance)
         {
             parent.SetInput(parent.player.transform.position - parent.transform.position);
+            parent.Attack(0);
+        }
+        else if(parent.playerDetected && distance <= desiredDistance)
+        {
+            parent.SetInput(Vector2.zero);
+            parent.InstantStop();
+            parent.Attack(0.4f);        
         }
         else
         {
             parent.SetInput(Vector2.zero);
+            parent.Attack(0);
         }
     }
 }

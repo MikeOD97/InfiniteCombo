@@ -6,8 +6,6 @@ using UnityEngine;
 public class Player : Entity
 {
     // Start is called before the first frame update
-    public GameObject Attack1Box, Attack2Box, Attack3Box;
-    public Sprite Attack1HitSprite, Attack2HitSprite, Attack3HitSprite;
     float startWalkSpeed;
 
     void Start()

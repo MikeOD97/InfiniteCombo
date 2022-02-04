@@ -8,4 +8,10 @@ AnimatorOverrideController:
   m_PrefabAsset: {fileID: 0}
   m_Name: Enemy Animator
   m_Controller: {fileID: 9100000, guid: e88c861e314b32948b72f99377a08614, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 4fed744174cfaef438df46a4459e6b26, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4fb5ab9d5378e0d42b8fc53bc791a3a0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7cbe2d9cb2bb6d948a54af06a408e773, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6c8dba96947ff4647abf74f61e143bdf, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 975705a2951055b4cb9032619c304f65, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a60b7e4075c1adc4d9758d51a03803a1, type: 2}
