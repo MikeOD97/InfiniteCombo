@@ -37,12 +37,8 @@ public class PlayerInput : MonoBehaviour
             }
             player.Attack(attackTimer);
         //-----This is just for testing damage. To be removed.-----
-            if(Input.GetKeyDown(KeyCode.Q))
-                player.Damaged(true);
-            else
-                player.Damaged(false);
-            if(Input.GetKeyDown(KeyCode.E))
-                StartCoroutine(player.Stunned(new Vector2(60,12)));
+/*             if(Input.GetKeyDown(KeyCode.E))
+                StartCoroutine(player.Stunned(new Vector2(60,12))); */
         }
         else
             player.SetInput(Vector2.zero);

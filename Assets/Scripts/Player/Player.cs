@@ -80,7 +80,7 @@ public class Player : Entity
 
     //This'll be used in the future when I figure out how I wanna implement knock-down mechanics, 
     //points where you're unable to act, times where you're sent flying, etc.
-    public IEnumerator Stunned(Vector2 stunForce)
+    public IEnumerator Stunned(Vector2 stunForce, float stunTime)
     {
         //from any different method, call "StartCoroutine(Stunned())
 
@@ -93,5 +93,9 @@ public class Player : Entity
         stunned = false;
         animator.SetBool("Stunned", false);
         animator.Play("Idle");
+    }
+    public void PlayStun(Vector2 stunForce, float stunTime)
+    {
+        StartCoroutine(Stunned(stunForce, stunTime));
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     protected Controller controller;//Controller for handling all movement calculations
+    public float faceDir;
 
     public float minJumpHeight = 1;
     public float maxJumpHeight = 4;
@@ -38,8 +39,6 @@ public class Entity : MonoBehaviour
     protected SpriteRenderer spriteRenderer; //sprite renderer property
 
     protected Vector3 vel; //Velocity vector
-
-    protected float stunTime = 1.5f;
 
     public bool stunned = false;
 

@@ -20,7 +20,9 @@ public class EnemyInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance = Vector3.Distance(parent.player.transform.position, parent.transform.position);
+        if(!parent.stunned)
+        {
+            distance = Vector3.Distance(parent.player.transform.position, parent.transform.position);
         if(parent.playerDetected && distance > desiredDistance)
         {
             parent.SetInput(parent.player.transform.position - parent.transform.position);
@@ -37,5 +39,7 @@ public class EnemyInput : MonoBehaviour
             parent.SetInput(Vector2.zero);
             parent.Attack(0);
         }
+        }
+        
     }
 }

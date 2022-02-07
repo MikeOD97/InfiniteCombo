@@ -43,6 +43,7 @@ public class Enemy : Entity
             playerDetected = true;
         else
             playerDetected = false;
+        faceDir = controller.collisions.faceDir;
 
         /* if(moveTimer < 2)
         {
@@ -82,6 +83,24 @@ public class Enemy : Entity
     public void InstantStop()
     {
         vel.x = 0;
+    }
+    public IEnumerator Stunned(Vector2 stunForce, float stunTime)
+    {
+        //from any different method, call "StartCoroutine(Stunned())
+
+        animator.Play("Hurt");
+        stunned = true;
+        animator.SetBool("Stunned", true);
+        vel += (Vector3)stunForce;
+
+        yield return new WaitForSeconds(stunTime);
+        stunned = false;
+        animator.SetBool("Stunned", false);
+        animator.Play("Idle");
+    }
+    public void PlayStun(Vector2 stunForce, float stunTime)
+    {
+        StartCoroutine(Stunned(stunForce, stunTime));
     }
 
 }
