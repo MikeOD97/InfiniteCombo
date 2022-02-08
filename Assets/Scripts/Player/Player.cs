@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +18,7 @@ public class Player : Entity
         maxJumpVel = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVel = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         startWalkSpeed = walkSpeed;
+        health = 100;
     }
     void Update()
     {
@@ -33,6 +34,7 @@ public class Player : Entity
             vel.y = 0;
             animator.SetBool("Jumping", false);
         }
+        faceDir = Mathf.Sign(gameObject.transform.localScale.x);
     }
     public void Attack(float timer)
     {

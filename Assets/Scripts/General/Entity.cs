@@ -44,6 +44,8 @@ public class Entity : MonoBehaviour
 
     public GameObject Attack1Box, Attack2Box, Attack3Box;
     public Sprite Attack1HitSprite, Attack2HitSprite, Attack3HitSprite;
+
+    public float health;
     // Start is called before the first frame update
     void Start()
     {

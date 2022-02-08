@@ -7,7 +7,6 @@ public class AttackCollisions : MonoBehaviour
     public float attackStrength;
     public Vector2 launchDir;
     public float stunTime;
-    GameObject otherObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,24 +22,26 @@ public class AttackCollisions : MonoBehaviour
     {
         if(gameObject.tag == "PlayerAttackBox" && other.tag == "EnemyHitBox")
         {
-            EnemyDamage(other.gameObject, launchDir, stunTime);
+            EnemyDamage(other.gameObject, gameObject, launchDir, stunTime);
         }
         else if(gameObject.tag == "EnemyAttackBox" && other.tag == "PlayerHitBox")
         {
-            PlayerDamage(other.gameObject, launchDir, stunTime);
+            PlayerDamage(other.gameObject, gameObject, launchDir, stunTime);
         }
     }
 
-    void PlayerDamage(GameObject obj, Vector2 launchDir, float stunTime)
+    void PlayerDamage(GameObject obj, GameObject other, Vector2 launchDir, float stunTime)
     {
-        otherObject = obj.transform.parent.gameObject;
-        Player player = otherObject.GetComponent<Player>();
-        player.PlayStun(launchDir, stunTime);
+        Player player = obj.transform.parent.gameObject.GetComponent<Player>();
+        Enemy enemy = other.transform.parent.gameObject.GetComponent<Enemy>();
+        player.PlayStun(new Vector2(launchDir.x * enemy.faceDir, launchDir.y), stunTime);
+        player.health -= attackStrength;
     }
-    void EnemyDamage(GameObject obj, Vector2 launchDir, float stunTime)
+    void EnemyDamage(GameObject obj, GameObject other, Vector2 launchDir, float stunTime)
     {
-        otherObject = obj.transform.parent.gameObject;
-        Enemy enemy = otherObject.GetComponent<Enemy>();
-        enemy.PlayStun(launchDir, stunTime);
+        Enemy enemy = obj.transform.parent.gameObject.GetComponent<Enemy>();
+        Player player = other.transform.parent.gameObject.GetComponent<Player>();
+        enemy.PlayStun(new Vector2(launchDir.x * player.faceDir, launchDir.y), stunTime);
+        enemy.health -= attackStrength;
     }
 }

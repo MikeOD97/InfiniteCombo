@@ -22,6 +22,7 @@ public class Enemy : Entity
         minJumpVel = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         moveVel = new Vector2(1, 0);
         player = GameObject.FindGameObjectWithTag("Player");
+        health = 30;
 /*         visionCol = gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>();
         playerCol = player.GetComponent<BoxCollider2D>(); */
     }
@@ -43,18 +44,10 @@ public class Enemy : Entity
             playerDetected = true;
         else
             playerDetected = false;
-        faceDir = controller.collisions.faceDir;
+        faceDir = Mathf.Sign(gameObject.transform.localScale.x);
 
-        /* if(moveTimer < 2)
-        {
-            SetInput(moveVel);
-            moveTimer += Time.deltaTime;
-        }
-        else
-        {
-            moveVel.x *= -1;
-            moveTimer = 0;
-        } */
+        if(health <= 0)
+            GameObject.Destroy(gameObject);
     }
     public void Attack(float timer)
     {
@@ -94,6 +87,7 @@ public class Enemy : Entity
         vel += (Vector3)stunForce;
 
         yield return new WaitForSeconds(stunTime);
+        Debug.Log("escaped");
         stunned = false;
         animator.SetBool("Stunned", false);
         animator.Play("Idle");
@@ -101,6 +95,7 @@ public class Enemy : Entity
     public void PlayStun(Vector2 stunForce, float stunTime)
     {
         StartCoroutine(Stunned(stunForce, stunTime));
+        Debug.Log(stunTime);
     }
 
 }
