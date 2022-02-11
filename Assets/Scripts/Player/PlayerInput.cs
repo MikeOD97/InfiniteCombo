@@ -16,6 +16,8 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetMouseButtonUp(1))
+            player.Block(false);
         if(!player.stunned)
         {
             Vector2 dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //left and right movement
@@ -29,8 +31,6 @@ public class PlayerInput : MonoBehaviour
                 attackTimer = 0.4f;
             else if(Input.GetMouseButton(1))
                 player.Block(true);
-            else if(Input.GetMouseButtonUp(1))
-                player.Block(false);
             if(attackTimer > 0)
             {            
                 attackTimer -= Time.deltaTime;          
@@ -41,6 +41,9 @@ public class PlayerInput : MonoBehaviour
                 StartCoroutine(player.Stunned(new Vector2(60,12))); */
         }
         else
+        {
             player.SetInput(Vector2.zero);
+        }
+           
     }
 }

@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent (typeof(Controller))]
 public class Player : Entity
 {
     // Start is called before the first frame update
     float startWalkSpeed;
-
+    public Slider healthBar;
     void Start()
     {
         controller = GetComponent<Controller>();
@@ -66,11 +67,13 @@ public class Player : Entity
         {
             animator.SetBool("Blocking", true);
             walkSpeed = 0;
+            blocking = true;
         }
         else
         {
             animator.SetBool("Blocking", false);
             walkSpeed = startWalkSpeed;
+            blocking = false;
         }
 
     }
@@ -82,22 +85,32 @@ public class Player : Entity
 
     //This'll be used in the future when I figure out how I wanna implement knock-down mechanics, 
     //points where you're unable to act, times where you're sent flying, etc.
-    public IEnumerator Stunned(Vector2 stunForce, float stunTime)
+    public IEnumerator Stunned(Vector2 stunForce, float stunTime, float attackStrength)
     {
         //from any different method, call "StartCoroutine(Stunned())
+        health -= attackStrength;
+        healthBar.value = health;       
+        vel += (Vector3)stunForce;    
+        
+        if(!blocking)
+        {
+            animator.Play("Hurt");
+            stunned = true;
+            animator.SetBool("Stunned", true);
 
-        animator.Play("Hurt");
-        stunned = true;
-        animator.SetBool("Stunned", true);
-        vel += (Vector3)stunForce;
-
-        yield return new WaitForSeconds(stunTime);
-        stunned = false;
-        animator.SetBool("Stunned", false);
-        animator.Play("Idle");
+            yield return new WaitForSeconds(stunTime);
+            stunned = false;
+            animator.SetBool("Stunned", false);
+            animator.Play("Idle");
+        }   
     }
-    public void PlayStun(Vector2 stunForce, float stunTime)
+    public void PlayStun(Vector2 stunForce, float stunTime, float attackStrength)
     {
-        StartCoroutine(Stunned(stunForce, stunTime));
+        if(blocking)
+        {
+            attackStrength /= 3;
+            stunForce /= 3;
+        }
+        StartCoroutine(Stunned(stunForce, stunTime, attackStrength));
     }
 }

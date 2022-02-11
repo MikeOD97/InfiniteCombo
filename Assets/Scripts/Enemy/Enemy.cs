@@ -77,25 +77,33 @@ public class Enemy : Entity
     {
         vel.x = 0;
     }
-    public IEnumerator Stunned(Vector2 stunForce, float stunTime)
+    public IEnumerator Stunned(Vector2 stunForce, float stunTime, float attackStrength)
     {
         //from any different method, call "StartCoroutine(Stunned())
+        health -= attackStrength;
+        //healthBar.value = health;       
+        vel += (Vector3)stunForce;    
+        
+        if(!blocking)
+        {
+            animator.Play("Hurt");
+            stunned = true;
+            animator.SetBool("Stunned", true);
 
-        animator.Play("Hurt");
-        stunned = true;
-        animator.SetBool("Stunned", true);
-        vel += (Vector3)stunForce;
-
-        yield return new WaitForSeconds(stunTime);
-        Debug.Log("escaped");
-        stunned = false;
-        animator.SetBool("Stunned", false);
-        animator.Play("Idle");
+            yield return new WaitForSeconds(stunTime);
+            stunned = false;
+            animator.SetBool("Stunned", false);
+            animator.Play("Idle");
+        }   
     }
-    public void PlayStun(Vector2 stunForce, float stunTime)
+    public void PlayStun(Vector2 stunForce, float stunTime, float attackStrength)
     {
-        StartCoroutine(Stunned(stunForce, stunTime));
-        Debug.Log(stunTime);
+        if(blocking)
+        {
+            attackStrength /= 3;
+            stunForce /= 3;
+        }
+        StartCoroutine(Stunned(stunForce, stunTime, attackStrength));
     }
 
 }

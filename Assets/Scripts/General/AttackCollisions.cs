@@ -32,16 +32,18 @@ public class AttackCollisions : MonoBehaviour
 
     void PlayerDamage(GameObject obj, GameObject other, Vector2 launchDir, float stunTime)
     {
+        float damage = attackStrength;
+        Vector2 force = launchDir;
         Player player = obj.transform.parent.gameObject.GetComponent<Player>();
         Enemy enemy = other.transform.parent.gameObject.GetComponent<Enemy>();
-        player.PlayStun(new Vector2(launchDir.x * enemy.faceDir, launchDir.y), stunTime);
-        player.health -= attackStrength;
+        player.PlayStun(new Vector2(force.x * enemy.faceDir, force.y), stunTime, damage);
     }
     void EnemyDamage(GameObject obj, GameObject other, Vector2 launchDir, float stunTime)
     {
+        float damage = attackStrength;
+        Vector2 force = launchDir;
         Enemy enemy = obj.transform.parent.gameObject.GetComponent<Enemy>();
         Player player = other.transform.parent.gameObject.GetComponent<Player>();
-        enemy.PlayStun(new Vector2(launchDir.x * player.faceDir, launchDir.y), stunTime);
-        enemy.health -= attackStrength;
+        enemy.PlayStun(new Vector2(force.x * player.faceDir, force.y), stunTime, damage);
     }
 }

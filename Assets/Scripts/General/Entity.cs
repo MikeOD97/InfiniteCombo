@@ -7,6 +7,7 @@ public class Entity : MonoBehaviour
 {
     protected Controller controller;//Controller for handling all movement calculations
     public float faceDir;
+    public bool blocking;
 
     public float minJumpHeight = 1;
     public float maxJumpHeight = 4;
