@@ -10,7 +10,7 @@ public class Enemy : Entity
     public bool playerDetected;
     public GameObject player;
     public Collider2D visionCol;
-    public Collider2D playerCol;
+    Collider2D playerCol;
     void Start()
     {
         controller = GetComponent<Controller>();
@@ -22,6 +22,7 @@ public class Enemy : Entity
         minJumpVel = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         moveVel = new Vector2(1, 0);
         player = GameObject.FindGameObjectWithTag("Player");
+        playerCol = player.GetComponent<BoxCollider2D>();
         health = 30;
 /*         visionCol = gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>();
         playerCol = player.GetComponent<BoxCollider2D>(); */
