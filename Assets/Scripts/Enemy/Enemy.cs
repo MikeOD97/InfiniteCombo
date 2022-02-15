@@ -11,6 +11,7 @@ public class Enemy : Entity
     public GameObject player;
     public Collider2D visionCol;
     Collider2D playerCol;
+    public bool launched;
     void Start()
     {
         controller = GetComponent<Controller>();
@@ -23,7 +24,7 @@ public class Enemy : Entity
         moveVel = new Vector2(1, 0);
         player = GameObject.FindGameObjectWithTag("Player");
         playerCol = player.GetComponent<BoxCollider2D>();
-        health = 30;
+        health = 60;
 /*         visionCol = gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>();
         playerCol = player.GetComponent<BoxCollider2D>(); */
     }
@@ -31,7 +32,7 @@ public class Enemy : Entity
     // Update is called once per frame
     void Update()
     {
-        CalculateVelocity();
+        CalculateVelocity(false);
         HandleWallSliding();
         controller.Move(vel * Time.deltaTime, dirInput);
 

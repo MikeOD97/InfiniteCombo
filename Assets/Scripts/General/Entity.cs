@@ -17,6 +17,7 @@ public class Entity : MonoBehaviour
     protected float maxJumpVel;
     protected float minJumpVel;
     protected float velSmoothing;
+    protected float velSmoothingY;
     protected float accelTimeAir = .1f;
     protected float accelTimeGround = .2f;
 
@@ -135,10 +136,25 @@ public class Entity : MonoBehaviour
         }
     }
 
-    protected void CalculateVelocity()
+    protected void CalculateVelocity(bool altered)
     {
-        float targetVelX = dirInput.x * walkSpeed;
-        vel.x = Mathf.SmoothDamp(vel.x, targetVelX, ref velSmoothing, controller.collisions.below ? accelTimeGround : accelTimeAir);
-        vel.y += gravity * Time.deltaTime;
+        if(!altered)
+        {
+            float targetVelX = dirInput.x * walkSpeed;
+            vel.x = Mathf.SmoothDamp(vel.x, targetVelX, ref velSmoothing, controller.collisions.below ? accelTimeGround : accelTimeAir);
+            vel.y += gravity * Time.deltaTime;
+        }
+        else
+        {
+            float targetVelX = dirInput.x * walkSpeed;
+            float targetVelY = dirInput.y * walkSpeed * 2;
+            vel.x = Mathf.SmoothDamp(vel.x, targetVelX, ref velSmoothing, accelTimeAir);
+            vel.y = Mathf.SmoothDamp(vel.y, targetVelY, ref velSmoothingY, accelTimeAir);
+        }
+    }
+    public void InstantStop()
+    {
+        vel.x = 0;
+        vel.y = 0;
     }
 }

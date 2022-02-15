@@ -7,6 +7,7 @@ public class AttackCollisions : MonoBehaviour
     public float attackStrength;
     public Vector2 launchDir;
     public float stunTime;
+    public bool launcher;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +45,9 @@ public class AttackCollisions : MonoBehaviour
         Vector2 force = launchDir;
         Enemy enemy = obj.transform.parent.gameObject.GetComponent<Enemy>();
         Player player = other.transform.parent.gameObject.GetComponent<Player>();
+        player.engagedEnemy = enemy;
         enemy.PlayStun(new Vector2(force.x * player.faceDir, force.y), stunTime, damage);
+        if(launcher)
+            enemy.launched = true;
     }
 }

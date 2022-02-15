@@ -20,13 +20,17 @@ public class PlayerInput : MonoBehaviour
             player.Block(false);
         if(!player.stunned)
         {
-            Vector2 dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //left and right movement
-            player.SetInput(dirInput);
+            if(!player.extending)
+            {
+                Vector2 dirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); //left and right movement
+                player.SetInput(dirInput);
 
-            if (Input.GetKeyDown(KeyCode.Space))
-                player.OnJumpDown();
-            if (Input.GetKeyUp(KeyCode.Space))
-                player.OnJumpUp();
+                if (Input.GetKeyDown(KeyCode.Space))
+                    player.OnJumpDown();
+                if (Input.GetKeyUp(KeyCode.Space))
+                    player.OnJumpUp();
+            }
+
             if(Input.GetMouseButtonDown(0))
                 attackTimer = 0.4f;
             else if(Input.GetMouseButton(1))
@@ -36,9 +40,13 @@ public class PlayerInput : MonoBehaviour
                 attackTimer -= Time.deltaTime;          
             }
             player.Attack(attackTimer);
-        //-----This is just for testing damage. To be removed.-----
-/*             if(Input.GetKeyDown(KeyCode.E))
-                StartCoroutine(player.Stunned(new Vector2(60,12))); */
+            if(Input.GetMouseButtonDown(2))
+            {
+                if(player.engagedEnemy != null && player.engagedEnemy.launched)
+                {
+                    StartCoroutine(player.ComboExtend(player.engagedEnemy.transform.position - player.transform.position));
+                }
+            }
         }
         else
         {

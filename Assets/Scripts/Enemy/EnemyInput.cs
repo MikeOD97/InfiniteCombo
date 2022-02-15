@@ -40,6 +40,10 @@ public class EnemyInput : MonoBehaviour
                 parent.Attack(0);
             }
         }
+        else
+        {
+            parent.SetInput(Vector2.zero);
+        }
         
     }
 }

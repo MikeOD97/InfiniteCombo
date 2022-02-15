@@ -9,6 +9,9 @@ public class Player : Entity
     // Start is called before the first frame update
     float startWalkSpeed;
     public Slider healthBar;
+    public Enemy engagedEnemy;
+    public bool extending;
+    float desiredDistance = 1;
     void Start()
     {
         controller = GetComponent<Controller>();
@@ -23,7 +26,7 @@ public class Player : Entity
     }
     void Update()
     {
-        CalculateVelocity();
+        CalculateVelocity(extending);
         HandleWallSliding();
         controller.Move(vel * Time.deltaTime, dirInput);
 
@@ -112,5 +115,18 @@ public class Player : Entity
             stunForce /= 3;
         }
         StartCoroutine(Stunned(stunForce, stunTime, attackStrength));
+    }
+    public IEnumerator ComboExtend(Vector2 distance)
+    {
+        float extension = Vector3.Distance(engagedEnemy.transform.position, transform.position);
+        while(desiredDistance < extension)
+        {
+            extension = Vector3.Distance(engagedEnemy.transform.position, transform.position);
+            extending = true;
+            SetInput(distance);
+            yield return null;
+        }
+        extending = false;
+        InstantStop();
     }
 }
